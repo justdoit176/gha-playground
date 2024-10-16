@@ -34,7 +34,7 @@ jobs:
 
      steps:
      - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
      - name: Run a one-line script
         run: echo "Hello, GitHub Actions!"
