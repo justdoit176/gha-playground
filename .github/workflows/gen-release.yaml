@@ -18,7 +18,7 @@ jobs:
         id: check_release
         run: |
           TAG_NAME=$(git describe --tags)
-          RELEASE_URL="https://api.github.mpi-internal.com/repos/${{ github.repository }}/releases/tags/$TAG_NAME"
+          RELEASE_URL="https://api.github.com/repos/${{ github.repository }}/releases/tags/$TAG_NAME"
           RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" $RELEASE_URL)
           if echo "$RESPONSE" | grep -q '"id":'; then
             echo "Release already exists for tag $TAG_NAME."
