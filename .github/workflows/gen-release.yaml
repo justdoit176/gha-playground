@@ -20,6 +20,7 @@ jobs:
           TAG_NAME=$(git describe --tags)
           RELEASE_URL="https://api.github.com/repos/${{ github.repository }}/releases/tags/$TAG_NAME"
           RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" $RELEASE_URL)
+          echo "Response: $RESPONSE"
           if echo "$RESPONSE" | grep -q '"id":'; then
             echo "Release already exists for tag $TAG_NAME."
             echo "release_exists=true" >> $GITHUB_ENV
