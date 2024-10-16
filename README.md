@@ -1,4 +1,4 @@
-# GitHub Actions Playground
+# My GitHub Actions Playground
 
 This is designed to help experiment with and learn about GitHub Actions.
 
