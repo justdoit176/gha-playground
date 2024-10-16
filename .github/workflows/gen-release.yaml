@@ -21,4 +21,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           body: ${{ steps.generate_release_changelog.outputs.changelog }}
-          generate_release_notes: true
