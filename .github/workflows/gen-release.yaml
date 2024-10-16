@@ -33,13 +33,13 @@ jobs:
           exit 0
       - name: Generate changelog
         id: generate_changelog
-        if: env.release_exists == 'false'  # Only run if release does not exist
+        if: env.release_exists == 'false'
         uses: orhun/git-cliff-action@v4
         with:
           args: --latest --strip header
       - name: Create GitHub Release
         id: create_release
-        if: env.release_exists == 'false'  # Only run if release does not exist
+        if: env.release_exists == 'false'
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
