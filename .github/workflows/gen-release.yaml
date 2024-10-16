@@ -19,6 +19,8 @@ jobs:
       - name: Generate changelog
         id: generate_changelog
         uses: orhun/git-cliff-action@v4
+        with:
+          args: -vv --latest --strip header
       - name: Create GitHub Release
         id: create_release
         uses: softprops/action-gh-release@v2
