@@ -44,13 +44,3 @@ jobs:
 
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [GitHub Actions Marketplace](https://github.com/marketplace?type=actions)
-
-## Contributing
-
-Feel free to open issues or submit pull requests if you have any improvements or suggestions for this repository.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-Happy experimenting with GitHub Actions!
