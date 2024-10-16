@@ -1,26 +1,24 @@
 name: Release
-
 on:
-    push:
-        tags:
-            - 'v*.*.*'
-    workflow_dispatch:
-
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
 jobs:
-    release:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-                uses: actions/checkout@v4
-            - name: Generate release changelog
-                uses: janheinrichmerker/action-github-changelog-generator@v2.4
-                with:
-                    token: ${{ secrets.GITHUB_TOKEN }}
-            - name: Create GitHub Release
-                id: create_release
-                uses: softprops/action-gh-release@v2
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                with:
-                    body: ${{ steps.generate_release_changelog.outputs.changelog }}
-                    generate_release_notes: true
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Generate release changelog
+        uses: janheinrichmerker/action-github-changelog-generator@v2.4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: ${{ steps.generate_release_changelog.outputs.changelog }}
+          generate_release_notes: true
