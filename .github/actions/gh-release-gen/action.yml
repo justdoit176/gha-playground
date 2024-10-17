@@ -56,12 +56,9 @@ runs:
 
     - name: Generate changelog
       if: steps.check_release.outputs.release_exists == 'false'
-      shell: bash
-      run: |
-        cd ./temp_checkout
-        git cliff --latest --strip header > ../changelog.md
-      env:
-        GIT_CLIFF_OUTPUT: ../changelog.md
+      uses: orhun/git-cliff-action@v4
+      with:
+        args: --latest --strip header --workdir ./temp_checkout
 
     - name: Create GitHub Release
       if: steps.check_release.outputs.release_exists == 'false'
