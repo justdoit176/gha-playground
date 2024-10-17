@@ -1,7 +1,7 @@
 [changelog]
 # template for the changelog header
 header = """
-    # {{ timestamp | date(format="%Y-%m-%d") }}
+    # {% {{ timestamp | date(format="%Y-%m-%d") }} %}
 """
 # template for the changelog body
 # https://keats.github.io/tera/docs/#introduction
