@@ -59,6 +59,7 @@ runs:
         path: ${{ env.REPO_DIR }}
 
     - name: Generate changelog
+      id: generate_changelog
       if: steps.check_release.outputs.release_exists == 'false'
       uses: orhun/git-cliff-action@v4
       env:
