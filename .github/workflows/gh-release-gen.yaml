@@ -1,0 +1,21 @@
+name: Generate Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to create release for'
+        required: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Release
+        uses: ./.github/actions/gh-release-gen
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.event.inputs.tag }}
