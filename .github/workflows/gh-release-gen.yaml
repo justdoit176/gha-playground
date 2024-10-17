@@ -14,8 +14,10 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate Release
-        uses: ./.github/actions/gh-release-gen
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.event.inputs.tag }}
+        - name: Checkout repository
+            uses: actions/checkout@v4
+        - name: Generate Release
+            uses: ./.github/actions/gh-release-gen
+            with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            tag: ${{ github.event.inputs.tag }}
