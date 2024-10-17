@@ -1,7 +1,7 @@
 [changelog]
 # template for the changelog header
 header = """
-# Release Notes
+    # Release Notes
 """
 # template for the changelog body
 # https://keats.github.io/tera/docs/#introduction
