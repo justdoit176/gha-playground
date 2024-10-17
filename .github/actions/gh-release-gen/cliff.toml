@@ -1,12 +1,12 @@
 [changelog]
 # template for the changelog header
 header = """
-    # {% {{ timestamp | date(format="%Y-%m-%d") }} %}
+# Release Notes
 """
 # template for the changelog body
 # https://keats.github.io/tera/docs/#introduction
 body = """
-    ## Release Notes
+## [{{ timestamp | date(format="%Y-%m-%d") }}]
 {% for group, commits in commits | group_by(attribute="group") %}
     ### {{ group | striptags | trim | upper_first }}
     {% for commit in commits %}
