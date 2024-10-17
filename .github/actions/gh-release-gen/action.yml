@@ -17,15 +17,12 @@ runs:
       id: get_tag
       shell: bash
       run: |
-        if [ -n "${{ inputs.tag }}" ]; then
-          echo "Using provided tag: ${{ inputs.tag }}"
-          echo "tag=${{ inputs.tag }}" >> $GITHUB_OUTPUT
-        elif [ -n "$GITHUB_REF" ] && [[ $GITHUB_REF == refs/tags/* ]]; then
+        if [ -n "$GITHUB_REF" ] && [[ $GITHUB_REF == refs/tags/* ]]; then
           TAG=${GITHUB_REF#refs/tags/}
           echo "Detected tag from GITHUB_REF: $TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
         else
-          echo "Error: No tag provided and unable to detect from context"
+          echo "Error: Unable to detect tag"
           exit 1
         fi
 
@@ -65,9 +62,9 @@ runs:
       if: steps.check_release.outputs.release_exists == 'false'
       uses: orhun/git-cliff-action@v4
       env:
-        GIT_CLIFF_CONFIG: ${{ github.action_path }}/cliff.toml
         GIT_CLIFF_WORKDIR: ${{ env.REPO_DIR }}
       with:
+        config: ${{ github.action_path }}/cliff.toml
         args: --latest --use-branch-tags --no-exec --strip header
 
     - name: Output release notes to summary
