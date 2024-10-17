@@ -4,10 +4,7 @@ on:
     tags:
       - 'v*.*.*'
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag to create release for'
-        required: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
