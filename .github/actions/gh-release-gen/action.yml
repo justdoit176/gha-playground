@@ -67,7 +67,7 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github_token }}
       with:
         tag_name: ${{ steps.get_tag.outputs.tag }}
-        body_path: changelog.md
+        body: ${{ steps.generate_changelog.outputs.content }}
 
     - name: Clean up temporary checkout
       if: always()
