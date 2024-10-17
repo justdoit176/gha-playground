@@ -18,5 +18,6 @@ jobs:
         uses: ./.github/actions/gh-release-gen
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          dry_run: true
+          dry_run: false
+          tag: v0.3.1
 
