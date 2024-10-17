@@ -47,18 +47,22 @@ runs:
           exit 1
         fi
 
+    - name: Set env vars
+      run: echo "REPO_DIR=${{ github.workspace }}/repo4gitcliff" >> $GITHUB_ENV
+      shell: bash
+
     - name: Checkout repository for changelog
       if: steps.check_release.outputs.release_exists == 'false'
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        path: './temp_checkout'
+        path: ${{ env.REPO_DIR }}
 
     - name: Generate changelog
       if: steps.check_release.outputs.release_exists == 'false'
       uses: orhun/git-cliff-action@v4
       with:
-        args: --latest --strip header --workdir ./temp_checkout
+        args: --latest --strip header --workdir ${{ env.REPO_DIR }}
 
     - name: Create GitHub Release
       if: steps.check_release.outputs.release_exists == 'false'
@@ -72,4 +76,4 @@ runs:
     - name: Clean up temporary checkout
       if: always()
       shell: bash
-      run: rm -rf ./temp_checkout
+      run: rm -rf "${REPO_DIR}"
