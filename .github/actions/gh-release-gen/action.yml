@@ -8,6 +8,10 @@ inputs:
   tag:
     description: 'The tag to create a release for. If not provided, will be detected from the context.'
     required: false
+  dry_run:
+    description: 'If true, output changelog to action summary instead of publishing'
+    required: false
+    default: 'false'
 
 runs:
   using: "composite"
@@ -34,16 +38,18 @@ runs:
       run: |
         TAG_NAME="${{ steps.get_tag.outputs.tag }}"
         RELEASE_URL="https://api.github.com/repos/${{ github.repository }}/releases/tags/$TAG_NAME"
-        RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: token ${{ inputs.github_token }}" $RELEASE_URL)
-        echo "HTTP Status Code: $RESPONSE"
-        if [ "$RESPONSE" = "404" ]; then
+        HTTP_STATUS=$(curl -s -o response.json -w "%{http_code}" -H "Authorization: token ${{ inputs.github_token }}" $RELEASE_URL)
+        
+        if [ "$HTTP_STATUS" = "404" ]; then
           echo "Release does not exist for tag $TAG_NAME."
           echo "release_exists=false" >> $GITHUB_OUTPUT
-        elif [ "$RESPONSE" = "200" ]; then
+        elif [ "$HTTP_STATUS" = "200" ]; then
           echo "Release already exists for tag $TAG_NAME."
           echo "release_exists=true" >> $GITHUB_OUTPUT
         else
-          echo "Unexpected response code: $RESPONSE"
+          echo "Unexpected response code: $HTTP_STATUS"
+          echo "Response body:"
+          cat response.json
           exit 1
         fi
 
@@ -69,8 +75,15 @@ runs:
       with:
         args: --latest --use-branch-tags --no-exec --strip header
 
+    - name: Output changelog to summary (dry run)
+      if: inputs.dry_run == 'true' && steps.check_release.outputs.release_exists == 'false'
+      shell: bash
+      run: |
+        echo "# Changelog for ${{ steps.get_tag.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
+        echo "${{ steps.generate_changelog.outputs.content }}" >> $GITHUB_STEP_SUMMARY
+
     - name: Create GitHub Release
-      if: steps.check_release.outputs.release_exists == 'false'
+      if: inputs.dry_run != 'true' && steps.check_release.outputs.release_exists == 'false'
       uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
