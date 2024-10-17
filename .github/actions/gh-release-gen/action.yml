@@ -61,8 +61,12 @@ runs:
     - name: Generate changelog
       if: steps.check_release.outputs.release_exists == 'false'
       uses: orhun/git-cliff-action@v4
+      env:
+        GIT_CLIFF_CONFIG: ${{ github.action_path }}/cliff.toml
+        GIT_CLIFF_WORKDIR: ${{ env.REPO_DIR }}
+        GIT_CLIFF_TAG: ${{ steps.get_tag.outputs.tag }}
       with:
-        args: --latest --strip header --workdir ${{ env.REPO_DIR }}
+        args: --latest --use-branch-tags --no-exec --strip header
 
     - name: Create GitHub Release
       if: steps.check_release.outputs.release_exists == 'false'
