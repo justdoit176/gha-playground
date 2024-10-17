@@ -1,14 +1,13 @@
 [changelog]
 # template for the changelog header
 header = """
-# Changelog\n
-All notable changes to this project will be documented in this file.\n
+# Release Notes
 """
 # template for the changelog body
 # https://keats.github.io/tera/docs/#introduction
 body = """
 {% if version %}\
-    ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+    ## [{{ timestamp | date(format="%Y-%m-%d") }}]
 {% else %}\
     ## [unreleased]
 {% endif %}\
@@ -64,7 +63,7 @@ commit_parsers = [
   { message = "^chore\\(deps.*\\)", skip = true },
   { message = "^chore\\(pr\\)", skip = true },
   { message = "^chore\\(pull\\)", skip = true },
-  { message = "^chore", group = "<!-- 8 -->⚙️ Miscellaneous Tasks" },
+  { message = "^chore", group = "<!-- 8 -->⚙️ Miscellaneous" },
   { body = ".*security", group = "<!-- 9 -->🛡️ Security" },
   { message = "^revert", group = "<!-- 10 -->↩️ Revert" },
 ]
