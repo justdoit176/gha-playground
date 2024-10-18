@@ -82,10 +82,9 @@ runs:
       with:
         tag_name: ${{ steps.get_tag.outputs.tag }}
         body: ${{ steps.generate_changelog.outputs.content }}
-        generate_changelog: true
+        generate_release_notes: true
 
     - name: Clean up checkout directory
       if: always()
       shell: bash
       run: rm -rf "${REPO_DIR}"
-      
